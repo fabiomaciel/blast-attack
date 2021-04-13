@@ -3,15 +3,10 @@
 #include <stdbool.h>
 #include <SDL.h>
 
+#include "controller.h"
+
 const int SCREEN_WIDTH  = 640;
 const int SCREEN_HEIGHT = 480;
-
-typedef struct Controller {
-  bool up;
-  bool down;
-  bool left;
-  bool right;
-} Controller;
 
 int 
 main (int   argc,
@@ -41,7 +36,7 @@ main (int   argc,
   SDL_Rect rect = { .x = 0, .y = 0, .w = 20, .h = 20 };
 
   bool quit = false;
-  Controller controller = {0};
+  controller_t controller = {0};
 
   while (!quit) {
     screenSurface = SDL_GetWindowSurface(window);
