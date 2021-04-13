@@ -47,43 +47,7 @@ main (int   argc,
       if (event.type == SDL_QUIT) {
         quit = true;
       }
-      
-      if (event.type == SDL_KEYDOWN) {
-        switch (event.key.keysym.sym) {
-          case SDLK_UP:
-          controller.up = true;
-          break;
-          case SDLK_DOWN:
-          controller.down = true;
-          break;
-          case SDLK_LEFT:
-          controller.left = true;
-          break;
-          case SDLK_RIGHT:
-          controller.right = true;
-          break;
-        }
-      }
-
-      if (event.type == SDL_KEYUP) {
-        switch (event.key.keysym.sym) {
-          case SDLK_UP:
-          controller.up = false;
-          break;
-
-          case SDLK_DOWN:
-          controller.down = false;
-          break;
-
-          case SDLK_LEFT:
-          controller.left = false;
-          break;
-
-          case SDLK_RIGHT:
-          controller.right = false;
-          break;
-        }
-      }
+      controller_update(&controller, &event);
     }
 
     if (controller.up)    rect.y -= 1;

@@ -3,7 +3,8 @@ SOURCE_DIR  ?= ./src
 BUILD_DIR   ?= ./build
 
 CFLAGS := -Wall
-OBJS   := $(BUILD_DIR)/main.o
+OBJS   := $(BUILD_DIR)/main.o \
+	        $(BUILD_DIR)/controller.o
 
 ifeq ($(OS),Windows_NT)
 	CC := gcc

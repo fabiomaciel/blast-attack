@@ -1,6 +1,7 @@
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
 
+#include <SDL.h>
 #include <stdbool.h>
 
 #ifdef __cplusplus
@@ -13,6 +14,9 @@ typedef struct controller_t {
   bool left;
   bool right;
 } controller_t;
+
+void controller_update(controller_t *self,
+                       SDL_Event    *event);
 
 #ifdef __cplusplus
 }
