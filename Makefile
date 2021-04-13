@@ -1,6 +1,9 @@
-.PHONY: build clean run
+TARGET      ?= blast_attack
+SOURCE_DIR  ?= ./src
+BUILD_DIR   ?= ./build
 
 CFLAGS := -Wall
+OBJS   := $(BUILD_DIR)/main.o
 
 ifeq ($(OS),Windows_NT)
 	CC := gcc
@@ -10,11 +13,22 @@ else
 	CFLAGS += -Wall $(shell pkg-config sdl2 --cflags --libs)
 endif
 
-build:
-	$(CC) src/main.c -o main $(CFLAGS)  
+.PHONY: build clean run $(TARGET)
+
+all: $(TARGET)
+
+$(TARGET): $(BUILD_DIR) $(OBJS)
+	$(CC) $(OBJS) -o $(TARGET) $(CFLAGS)
+
+$(BUILD_DIR):
+	@mkdir -p $@
+
+$(BUILD_DIR)/%.o: $(SOURCE_DIR)/%.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm ./game;
+	@rm -rf $(OBJS)
+	@rm $(TARGET)
 
 run:
-	./game;
+	./$(TARGET)

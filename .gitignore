@@ -1,2 +1,4 @@
 *.exe
-main
+*.o
+/build
+blast_attack
