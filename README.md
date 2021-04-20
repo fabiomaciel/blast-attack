@@ -1,6 +1,12 @@
 Black Attack
 ------------
 
+## Download
+
+```shell
+$ git clone --recursive git@github.com:johnnyrichard/blast-attack.git
+```
+
 ## Dependencies
 
 - make
