@@ -4,7 +4,7 @@ Blast Attack
 ## Download
 
 ```shell
-$ git clone --recursive git@github.com:johnnyrichard/blast-attack.git
+$ git clone --recursive git@git.sr.ht:~johnnyrichard/blast-attack
 ```
 
 ## Dependencies
