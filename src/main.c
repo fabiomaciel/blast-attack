@@ -48,7 +48,7 @@ main (int   argc,
   if (SDL_Init(SDL_INIT_VIDEO) < 0) {
     fprintf(
         stderr,
-        "SDL could not initialize! SDL_Error: %s\n",
+        "SDL could not be initialized! SDL_Error: %s\n",
         SDL_GetError()
     );
     return EXIT_FAILURE;
