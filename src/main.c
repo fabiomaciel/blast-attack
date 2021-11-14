@@ -42,8 +42,8 @@ int
 main (int   argc,
       char *args[])
 {
-  SDL_Window*  window        = NULL;
-  SDL_Surface* screenSurface = NULL;
+  SDL_Window* window = NULL;
+  SDL_Surface* surface = NULL;
 
   if (SDL_Init(SDL_INIT_VIDEO) < 0) {
     fprintf(
@@ -77,11 +77,11 @@ main (int   argc,
   controller_t ctrl = {0};
 
   while (!quit) {
-    screenSurface = SDL_GetWindowSurface(window);
+    surface = SDL_GetWindowSurface(window);
     SDL_FillRect(
-        screenSurface,
+        surface,
         NULL,
-        SDL_MapRGB(screenSurface->format, 0xFF, 0xFF, 0xFF)
+        SDL_MapRGB(surface->format, 0xFF, 0xFF, 0xFF)
     );
 
     SDL_Event event;
@@ -98,9 +98,9 @@ main (int   argc,
     if (controller_is_right_pressed(&ctrl)) rect.x += 1;
 
     SDL_FillRect(
-        screenSurface,
+        surface,
         &rect,
-        SDL_MapRGB(screenSurface->format, 0xFF, 0x0, 0x0)
+        SDL_MapRGB(surface->format, 0xFF, 0x0, 0x0)
     );
 
     SDL_UpdateWindowSurface(window);
