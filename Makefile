@@ -44,7 +44,7 @@ $(TEST_DIR)/%: $(TEST_DIR)/%-test
 test: lib/libmunit.so $(BUILD_DIR) $(TESTS) 
 
 lib/libmunit.so: $(LIB_DIR) third_party/munit/munit.c
-	$(CC) -Wall -Werror -fpic -c third_party/munit/munit.c -shared -o lib/libmunit.so
+	$(CC) -Wall -fpic -c third_party/munit/munit.c -shared -o lib/libmunit.so
 
 clean:
 	@rm -rf $(BUILD_DIR)

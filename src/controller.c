@@ -38,39 +38,59 @@ controller_update(controller_t *self,
 {
   if (event->type == SDL_KEYDOWN) {
     switch (event->key.keysym.sym) {
-      case SDLK_UP:
-        self->up = true;
-        break;
-      case SDLK_DOWN:
-        self->down = true;
-        break;
-      case SDLK_LEFT:
-        self->left = true;
-        break;
-      case SDLK_RIGHT:
-        self->right = true;
-        break;
+    case SDLK_UP:
+      self->pressed_buttons |= BTN_UP;
+      break;
+    case SDLK_DOWN:
+      self->pressed_buttons |= BTN_DOWN;
+      break;
+    case SDLK_LEFT:
+      self->pressed_buttons |= BTN_LEFT;
+      break;
+    case SDLK_RIGHT:
+      self->pressed_buttons |= BTN_RIGHT;
+      break;
     }
   }
 
   if (event->type == SDL_KEYUP) {
     switch (event->key.keysym.sym) {
-      case SDLK_UP:
-        self->up = false;
-        break;
-
-      case SDLK_DOWN:
-        self->down = false;
-        break;
-
-      case SDLK_LEFT:
-        self->left = false;
-        break;
-
-      case SDLK_RIGHT:
-        self->right = false;
-        break;
+    case SDLK_UP:
+      self->pressed_buttons ^= BTN_UP;
+      break;
+    case SDLK_DOWN:
+      self->pressed_buttons ^= BTN_DOWN;
+      break;
+    case SDLK_LEFT:
+      self->pressed_buttons ^= BTN_LEFT;
+      break;
+    case SDLK_RIGHT:
+      self->pressed_buttons ^= BTN_RIGHT;
+      break;
     }
   }
 }
 
+bool
+controller_is_up_pressed(controller_t *self)
+{
+  return self->pressed_buttons & BTN_UP;
+}
+
+bool
+controller_is_down_pressed(controller_t *self)
+{
+  return self->pressed_buttons & BTN_DOWN;
+}
+
+bool
+controller_is_right_pressed(controller_t *self)
+{
+  return self->pressed_buttons & BTN_RIGHT;
+}
+
+bool
+controller_is_left_pressed(controller_t *self)
+{
+  return self->pressed_buttons & BTN_LEFT;
+}

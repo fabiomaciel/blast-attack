@@ -74,7 +74,7 @@ main (int   argc,
   SDL_Rect rect = { .x = 0, .y = 0, .w = 20, .h = 20 };
 
   bool quit = false;
-  controller_t controller = {0};
+  controller_t ctrl = {0};
 
   while (!quit) {
     screenSurface = SDL_GetWindowSurface(window);
@@ -89,13 +89,13 @@ main (int   argc,
       if (event.type == SDL_QUIT) {
         quit = true;
       }
-      controller_update(&controller, &event);
+      controller_update(&ctrl, &event);
     }
 
-    if (controller.up)    rect.y -= 1;
-    if (controller.down)  rect.y += 1;
-    if (controller.left)  rect.x -= 1;
-    if (controller.right) rect.x += 1;
+    if (controller_is_up_pressed(&ctrl))    rect.y -= 1;
+    if (controller_is_down_pressed(&ctrl))  rect.y += 1;
+    if (controller_is_left_pressed(&ctrl))  rect.x -= 1;
+    if (controller_is_right_pressed(&ctrl)) rect.x += 1;
 
     SDL_FillRect(
         screenSurface,

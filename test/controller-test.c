@@ -47,11 +47,11 @@ press_and_release_up(const MunitParameter params[], void* fixture)
 
     SDL_Event event = an_event(SDL_KEYDOWN, SDLK_UP);
     controller_update(&ctrl, &event);
-    assert_true(ctrl.up);
+    assert_true(controller_is_up_pressed(&ctrl));
 
     event = an_event(SDL_KEYUP, SDLK_UP);
     controller_update(&ctrl, &event);
-    assert_false(ctrl.up);
+    assert_false(controller_is_up_pressed(&ctrl));
     return MUNIT_OK;
 }
 
@@ -62,11 +62,11 @@ press_and_release_down(const MunitParameter params[], void* fixture)
 
     SDL_Event event = an_event(SDL_KEYDOWN, SDLK_DOWN);
     controller_update(&ctrl, &event);
-    assert_true(ctrl.down);
+    assert_true(controller_is_down_pressed(&ctrl));
 
     event = an_event(SDL_KEYUP, SDLK_DOWN);
     controller_update(&ctrl, &event);
-    assert_false(ctrl.down);
+    assert_false(controller_is_down_pressed(&ctrl));
     return MUNIT_OK;
 }
 
@@ -77,11 +77,11 @@ press_and_release_right(const MunitParameter params[], void* fixture)
 
     SDL_Event event = an_event(SDL_KEYDOWN, SDLK_RIGHT);
     controller_update(&ctrl, &event);
-    assert_true(ctrl.right);
+    assert_true(controller_is_right_pressed(&ctrl));
 
     event = an_event(SDL_KEYUP, SDLK_RIGHT);
     controller_update(&ctrl, &event);
-    assert_false(ctrl.right);
+    assert_false(controller_is_right_pressed(&ctrl));
     return MUNIT_OK;
 }
 
@@ -92,11 +92,11 @@ press_and_release_left(const MunitParameter params[], void* fixture)
 
     SDL_Event event = an_event(SDL_KEYDOWN, SDLK_LEFT);
     controller_update(&ctrl, &event);
-    assert_true(ctrl.left);
+    assert_true(controller_is_left_pressed(&ctrl));
 
     event = an_event(SDL_KEYUP, SDLK_LEFT);
     controller_update(&ctrl, &event);
-    assert_false(ctrl.left);
+    assert_false(controller_is_left_pressed(&ctrl));
     return MUNIT_OK;
 }
 

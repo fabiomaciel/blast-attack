@@ -33,23 +33,25 @@
 
 #include <SDL.h>
 #include <stdbool.h>
+#include <stdint.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+enum btn_t {
+  BTN_UP    = 1 << 0,
+  BTN_DOWN  = 1 << 1,
+  BTN_RIGHT = 1 << 2,
+  BTN_LEFT  = 1 << 3
+};
 
 typedef struct controller_t {
-  bool up;
-  bool down;
-  bool left;
-  bool right;
+  uint8_t pressed_buttons;
 } controller_t;
 
 void controller_update(controller_t *self,
                        SDL_Event    *event);
 
-#ifdef __cplusplus
-}
-#endif
+bool controller_is_up_pressed(controller_t *self);
+bool controller_is_down_pressed(controller_t *self);
+bool controller_is_right_pressed(controller_t *self);
+bool controller_is_left_pressed(controller_t *self);
 
 #endif /* CONTROLLER_H */
