@@ -55,7 +55,7 @@ main (int   argc,
   }
 
   window = SDL_CreateWindow(
-      "SDL Tutorial",
+      "Blast Attack",
       SDL_WINDOWPOS_UNDEFINED,
       SDL_WINDOWPOS_UNDEFINED,
       SCREEN_WIDTH, SCREEN_HEIGHT,
