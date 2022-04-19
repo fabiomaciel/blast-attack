@@ -4,8 +4,8 @@ TEST_DIR     ?= ./test
 LIB_DIR      ?= ./lib
 BUILD_DIR    ?= ./build
 
-CFLAGS       := -Wall
-CFLAGS_TEST  := -Isrc -Ithird_party -Llib -lmunit 
+CFLAGS       := -Wall -lm
+CFLAGS_TEST  := -Isrc -Ithird_party -Llib -lmunit
 SRCS         := $(wildcard $(SOURCE_DIR)/*.c)
 SRCS_TEST    := $(wildcard $(TEST_DIR)/*.c)
 OBJS         := $(patsubst $(SOURCE_DIR)/%.c,    $(BUILD_DIR)/%.o, $(SRCS))

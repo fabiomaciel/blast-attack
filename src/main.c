@@ -31,6 +31,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <math.h>
 #include <SDL.h>
 
 #include "controller.h"
@@ -43,7 +44,6 @@ main (int   argc,
       char *args[])
 {
   SDL_Window* window = NULL;
-  SDL_Surface* surface = NULL;
 
   if (SDL_Init(SDL_INIT_VIDEO) < 0) {
     fprintf(
@@ -71,18 +71,23 @@ main (int   argc,
     return EXIT_FAILURE;
   }
 
+  SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+
+  if (renderer == NULL) {
+    fprintf(stderr, "Could not create renderer: %s\n", SDL_GetError());
+    return EXIT_FAILURE;
+  }
+
   SDL_Rect rect = { .x = 0, .y = 0, .w = 20, .h = 20 };
 
   bool quit = false;
   controller_t ctrl = {0};
 
   while (!quit) {
-    surface = SDL_GetWindowSurface(window);
-    SDL_FillRect(
-        surface,
-        NULL,
-        SDL_MapRGB(surface->format, 0xFF, 0xFF, 0xFF)
-    );
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 1);
+    SDL_RenderClear(renderer);
+
+    uint64_t start = SDL_GetPerformanceCounter();
 
     SDL_Event event;
     while (SDL_PollEvent(&event) != 0) {
@@ -92,20 +97,22 @@ main (int   argc,
       controller_update(&ctrl, &event);
     }
 
-    if (controller_is_up_pressed(&ctrl))    rect.y -= 1;
-    if (controller_is_down_pressed(&ctrl))  rect.y += 1;
-    if (controller_is_left_pressed(&ctrl))  rect.x -= 1;
-    if (controller_is_right_pressed(&ctrl)) rect.x += 1;
+    if (controller_is_up_pressed(&ctrl))    rect.y -= 8;
+    if (controller_is_down_pressed(&ctrl))  rect.y += 8;
+    if (controller_is_left_pressed(&ctrl))  rect.x -= 8;
+    if (controller_is_right_pressed(&ctrl)) rect.x += 8;
 
-    SDL_FillRect(
-        surface,
-        &rect,
-        SDL_MapRGB(surface->format, 0xFF, 0x0, 0x0)
-    );
+    SDL_SetRenderDrawColor(renderer, 0xFF, 0, 0, 1);
+    SDL_RenderFillRect(renderer, &rect);
+    SDL_RenderPresent(renderer);
 
-    SDL_UpdateWindowSurface(window);
+    uint64_t end = SDL_GetPerformanceCounter();
+
+    float elapsedMS = (end - start) / (float)SDL_GetPerformanceFrequency() * 1000.0f;
+    SDL_Delay(floor(16.666f - elapsedMS));
   }
 
+  SDL_DestroyRenderer(renderer);
   SDL_DestroyWindow(window);
   SDL_Quit();
   return EXIT_SUCCESS;
