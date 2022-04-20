@@ -35,6 +35,7 @@
 #include <SDL.h>
 
 #include "controller.h"
+#include "player.h"
 
 const int SCREEN_WIDTH  = 640;
 const int SCREEN_HEIGHT = 480;
@@ -76,11 +77,13 @@ main (int   argc,
     return EXIT_FAILURE;
   }
 
-  SDL_Rect rect = { .x = 0, .y = 0, .w = 20, .h = 20 };
   SDL_Rect bg_rect = { .x = 0, .y = 0, .w = SCREEN_WIDTH, .h = SCREEN_HEIGHT };
 
   bool quit = false;
   controller_t ctrl = {0};
+
+  player_t player;
+  player_init(&player);
 
   while (!quit) {
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 1);
@@ -99,28 +102,9 @@ main (int   argc,
       controller_update(&ctrl, &event);
     }
 
-    if (controller_is_up_pressed(&ctrl) && rect.y > 0) {
-      rect.y -= 8;
-      rect.y = rect.y < 0 ? 0 : rect.y;
-    }
+    player_update(&player, &ctrl, SCREEN_WIDTH, SCREEN_HEIGHT);
+    player_draw(&player, renderer);
 
-    if (controller_is_down_pressed(&ctrl) && rect.y + 8 < SCREEN_HEIGHT) {
-      rect.y += 8;
-      rect.y = rect.y + rect.h > SCREEN_HEIGHT ? SCREEN_HEIGHT - rect.h : rect.y;
-    }
-
-    if (controller_is_left_pressed(&ctrl) && rect.x > 0)  {
-      rect.x -= 8;
-      rect.x = rect.x < 0 ? 0 : rect.x;
-    }
-
-    if (controller_is_right_pressed(&ctrl) && rect.x + 8 < SCREEN_WIDTH) {
-      rect.x += 8;
-      rect.x = rect.x + rect.h > SCREEN_WIDTH ? SCREEN_WIDTH - rect.h : rect.x;
-    }
-
-    SDL_SetRenderDrawColor(renderer, 0xFF, 0, 0, 1);
-    SDL_RenderFillRect(renderer, &rect);
     SDL_RenderPresent(renderer);
 
     uint64_t end = SDL_GetPerformanceCounter();
