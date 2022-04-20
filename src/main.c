@@ -99,10 +99,25 @@ main (int   argc,
       controller_update(&ctrl, &event);
     }
 
-    if (controller_is_up_pressed(&ctrl))    rect.y -= 8;
-    if (controller_is_down_pressed(&ctrl))  rect.y += 8;
-    if (controller_is_left_pressed(&ctrl))  rect.x -= 8;
-    if (controller_is_right_pressed(&ctrl)) rect.x += 8;
+    if (controller_is_up_pressed(&ctrl) && rect.y > 0) {
+      rect.y -= 8;
+      rect.y = rect.y < 0 ? 0 : rect.y;
+    }
+
+    if (controller_is_down_pressed(&ctrl) && rect.y + 8 < SCREEN_HEIGHT) {
+      rect.y += 8;
+      rect.y = rect.y + rect.h > SCREEN_HEIGHT ? SCREEN_HEIGHT - rect.h : rect.y;
+    }
+
+    if (controller_is_left_pressed(&ctrl) && rect.x > 0)  {
+      rect.x -= 8;
+      rect.x = rect.x < 0 ? 0 : rect.x;
+    }
+
+    if (controller_is_right_pressed(&ctrl) && rect.x + 8 < SCREEN_WIDTH) {
+      rect.x += 8;
+      rect.x = rect.x + rect.h > SCREEN_WIDTH ? SCREEN_WIDTH - rect.h : rect.x;
+    }
 
     SDL_SetRenderDrawColor(renderer, 0xFF, 0, 0, 1);
     SDL_RenderFillRect(renderer, &rect);
