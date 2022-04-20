@@ -43,7 +43,6 @@ int
 main (int   argc,
       char *args[])
 {
-  SDL_Window* window = NULL;
 
   if (SDL_Init(SDL_INIT_VIDEO) < 0) {
     fprintf(
@@ -54,31 +53,31 @@ main (int   argc,
     return EXIT_FAILURE;
   }
 
-  window = SDL_CreateWindow(
+  SDL_Window* window = SDL_CreateWindow(
       "Blast Attack",
       SDL_WINDOWPOS_UNDEFINED,
       SDL_WINDOWPOS_UNDEFINED,
       SCREEN_WIDTH, SCREEN_HEIGHT,
-      SDL_WINDOW_SHOWN
+      SDL_WINDOW_RESIZABLE
   );
-
   if (window == NULL) {
-    fprintf(
-        stderr,
-        "Window could not be created! SDL_Error: %s\n",
-        SDL_GetError()
-    );
+    fprintf(stderr, "Window could not be created! SDL_Error: %s\n", SDL_GetError());
     return EXIT_FAILURE;
   }
 
   SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-
   if (renderer == NULL) {
     fprintf(stderr, "Could not create renderer: %s\n", SDL_GetError());
     return EXIT_FAILURE;
   }
 
+  if (SDL_RenderSetLogicalSize(renderer, SCREEN_WIDTH, SCREEN_HEIGHT) < 0) {
+    fprintf(stderr, "Could not set logical size: %s\n", SDL_GetError());
+    return EXIT_FAILURE;
+  }
+
   SDL_Rect rect = { .x = 0, .y = 0, .w = 20, .h = 20 };
+  SDL_Rect bg_rect = { .x = 0, .y = 0, .w = SCREEN_WIDTH, .h = SCREEN_HEIGHT };
 
   bool quit = false;
   controller_t ctrl = {0};
@@ -88,6 +87,9 @@ main (int   argc,
     SDL_RenderClear(renderer);
 
     uint64_t start = SDL_GetPerformanceCounter();
+
+    SDL_SetRenderDrawColor(renderer, 0XCC, 0XCC, 0XCC, 1);
+    SDL_RenderFillRect(renderer, &bg_rect);
 
     SDL_Event event;
     while (SDL_PollEvent(&event) != 0) {
