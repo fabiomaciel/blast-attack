@@ -3,3 +3,8 @@
 /lib
 /build
 blast_attack
+CMakeFiles
+cmake-build-blat-attack
+cmake_install.cmake
+CMakeCache.txt
+./blastattack
