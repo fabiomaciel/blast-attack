@@ -50,10 +50,22 @@ main (int   argc,
       controller_update(&controller, &event);
     }
 
-    if (controller.up)    rect.y -= 1;
-    if (controller.down)  rect.y += 1;
-    if (controller.left)  rect.x -= 1;
-    if (controller.right) rect.x += 1;
+    if (controller.up){
+        if(rect.y - 1 > 0)
+            rect.y -= 1;
+    }
+    if (controller.down) {
+        if(rect.y + rect.h + 1 < SCREEN_HEIGHT)
+            rect.y += 1;
+    }
+    if (controller.left)  {
+        if(rect.x - 1 > 0)
+            rect.x -= 1;
+    }
+    if (controller.right) {
+        if(rect.x + rect.w + 1 < SCREEN_WIDTH)
+            rect.x += 1;
+    }
 
     SDL_FillRect(screenSurface, &rect, SDL_MapRGB(screenSurface->format, 0xFF, 0x0, 0x0));
     SDL_UpdateWindowSurface(window);
