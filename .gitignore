@@ -4,3 +4,5 @@
 /lib
 blast_attack
 tags
+cmake-build-*
+.idea
