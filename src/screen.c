@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2021, Johnny Richard
+* Copyright (c) 2021, Fabio Maciel
 * All rights reserved.
 *
 * Redistribution and use in source and binary forms, with or without
@@ -28,74 +28,60 @@
 * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <math.h>
-#include <SDL.h>
-
-#include "controller.h"
-#include "player.h"
 #include "screen.h"
 
-int
-main (int   argc,
-      char *args[])
+#include <stdint.h>
+#include <assert.h>
+#include <SDL.h>
+
+const int SCREEN_WIDTH  = 640;
+const int SCREEN_HEIGHT = 480;
+
+bool
+screen_init(screen_t* screen)
 {
+  assert(screen && "screen is required");
 
-  if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-    fprintf(
-        stderr,
-        "SDL could not be initialized! SDL_Error: %s\n",
-        SDL_GetError()
-    );
-    return EXIT_FAILURE;
+  screen->width = SCREEN_WIDTH;
+  screen->height = SCREEN_HEIGHT;
+
+  screen->window = SDL_CreateWindow(
+      "Blast Attack",
+      SDL_WINDOWPOS_UNDEFINED,
+      SDL_WINDOWPOS_UNDEFINED,
+      screen->width, screen->height,
+      SDL_WINDOW_RESIZABLE
+  );
+
+  if (screen->window == NULL) {
+    fprintf(stderr, "Window could not be created! SDL_Error: %s\n", SDL_GetError());
+    return false;
   }
 
-  screen_t screen;
-
-  if(screen_init(&screen) == false){
-    return EXIT_FAILURE;
+  screen->renderer = SDL_CreateRenderer(screen->window, -1, SDL_RENDERER_ACCELERATED);
+  if (screen->renderer == NULL) {
+    fprintf(stderr, "Could not create renderer: %s\n", SDL_GetError());
+    return false;
   }
 
-  SDL_Rect bg_rect = { .x = 0, .y = 0, .w = screen.width, .h = screen.height };
-
-  bool quit = false;
-  controller_t ctrl = {0};
-
-  player_t player;
-  player_init(&player);
-
-  SDL_Renderer *renderer = screen.renderer;
-  while (!quit) {
-
-    screen_reset(&screen);
-    uint64_t start = SDL_GetPerformanceCounter();
-
-    SDL_SetRenderDrawColor(renderer, 0XCC, 0XCC, 0XCC, 1);
-    SDL_RenderFillRect(renderer, &bg_rect);
-
-    SDL_Event event;
-    while (SDL_PollEvent(&event) != 0) {
-      if (event.type == SDL_QUIT) {
-        quit = true;
-      }
-      controller_update(&ctrl, &event);
-    }
-
-    player_update(&player, &ctrl, screen.width, screen.height);
-    player_draw(&player, renderer);
-
-    SDL_RenderPresent(renderer);
-
-    uint64_t end = SDL_GetPerformanceCounter();
-
-    float elapsedMS = (end - start) / (float)SDL_GetPerformanceFrequency() * 1000.0f;
-    SDL_Delay(floor(16.666f - elapsedMS));
+  if (SDL_RenderSetLogicalSize(screen->renderer, screen->width, screen->height) < 0) {
+    fprintf(stderr, "Could not set logical size: %s\n", SDL_GetError());
+    return false;
   }
 
-  screen_destroy(&screen);
-  SDL_Quit();
+  return true;
+}
 
-  return EXIT_SUCCESS;
+void
+screen_reset(screen_t *screen)
+{
+  SDL_SetRenderDrawColor(screen->renderer, 0, 0, 0, 1);
+  SDL_RenderClear(screen->renderer);
+}
+
+void
+screen_destroy(screen_t *screen)
+{
+  SDL_DestroyRenderer(screen->renderer);
+  SDL_DestroyWindow(screen->window);
 }

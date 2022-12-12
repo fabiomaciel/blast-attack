@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2021, Johnny Richard
+* Copyright (c) 2021, Fabio Maciel
 * All rights reserved.
 *
 * Redistribution and use in source and binary forms, with or without
@@ -27,75 +27,25 @@
 * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
+#ifndef SCREEN_H
+#define SCREEN_H
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <stdint.h>
 #include <stdbool.h>
-#include <math.h>
+
 #include <SDL.h>
 
-#include "controller.h"
-#include "player.h"
-#include "screen.h"
+typedef struct screen {
+  uint16_t width;
+  uint16_t height;
+  SDL_Renderer* renderer;
+  SDL_Window* window
+} screen_t;
 
-int
-main (int   argc,
-      char *args[])
-{
+bool screen_init(screen_t *screen);
 
-  if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-    fprintf(
-        stderr,
-        "SDL could not be initialized! SDL_Error: %s\n",
-        SDL_GetError()
-    );
-    return EXIT_FAILURE;
-  }
+void screen_reset(screen_t *screen);
 
-  screen_t screen;
+void screen_destroy(screen_t *screen);
 
-  if(screen_init(&screen) == false){
-    return EXIT_FAILURE;
-  }
-
-  SDL_Rect bg_rect = { .x = 0, .y = 0, .w = screen.width, .h = screen.height };
-
-  bool quit = false;
-  controller_t ctrl = {0};
-
-  player_t player;
-  player_init(&player);
-
-  SDL_Renderer *renderer = screen.renderer;
-  while (!quit) {
-
-    screen_reset(&screen);
-    uint64_t start = SDL_GetPerformanceCounter();
-
-    SDL_SetRenderDrawColor(renderer, 0XCC, 0XCC, 0XCC, 1);
-    SDL_RenderFillRect(renderer, &bg_rect);
-
-    SDL_Event event;
-    while (SDL_PollEvent(&event) != 0) {
-      if (event.type == SDL_QUIT) {
-        quit = true;
-      }
-      controller_update(&ctrl, &event);
-    }
-
-    player_update(&player, &ctrl, screen.width, screen.height);
-    player_draw(&player, renderer);
-
-    SDL_RenderPresent(renderer);
-
-    uint64_t end = SDL_GetPerformanceCounter();
-
-    float elapsedMS = (end - start) / (float)SDL_GetPerformanceFrequency() * 1000.0f;
-    SDL_Delay(floor(16.666f - elapsedMS));
-  }
-
-  screen_destroy(&screen);
-  SDL_Quit();
-
-  return EXIT_SUCCESS;
-}
+#endif /* SCREEN_H */
