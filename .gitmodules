@@ -1,4 +1,0 @@
-[submodule "third_party/munit"]
-    path = third_party/munit
-    url = git@github.com:nemequ/munit.git
-    branch = v0.2.0

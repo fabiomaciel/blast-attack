@@ -30,7 +30,7 @@
 
 #define MUNIT_ENABLE_ASSERT_ALIASES
 #include "controller.h"
-#include <munit/munit.h>
+#include <munit.h>
 
 static SDL_Event
 an_event(SDL_EventType type, SDL_KeyCode keycode) {

@@ -9,18 +9,20 @@ $ git clone --recursive git@git.sr.ht:~johnnyrichard/blast-attack
 
 ## Dependencies
 
-- make
+- meson
+- ninja
 - SDL2
-- pkg-config
 
 ## Run
 
 ```shell
-$ make run
+$ meson setup builddir
+$ meson compile -C builddir # or ninja -C builddir
+$ ./builddir/blast-attack
 ```
 
 ## Tests
 
 ```shell
-$ make test
+$ meson test -C builddir -v
 ```

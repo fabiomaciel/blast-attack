@@ -6,3 +6,6 @@ blast_attack
 tags
 cmake-build-*
 .idea
+
+# subprojects git deps
+/subprojects/munit
