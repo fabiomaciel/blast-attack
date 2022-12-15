@@ -4,7 +4,7 @@ Blast Attack
 ## Download
 
 ```shell
-$ git clone --recursive git@git.sr.ht:~johnnyrichard/blast-attack
+$ git clone --recursive git@github.com:fabiomaciel/blast-attack.git
 ```
 
 ## Dependencies
@@ -12,6 +12,11 @@ $ git clone --recursive git@git.sr.ht:~johnnyrichard/blast-attack
 - make
 - SDL2
 - pkg-config
+
+## Contribute
+
+The main way of contributing to this project is through **Pull Requests** on
+GitHub repository[^github_repo].
 
 ## Run
 
@@ -24,3 +29,5 @@ $ make run
 ```shell
 $ make test
 ```
+
+[^github_repo]: https://github.com/fabiomaciel/blast-attack
