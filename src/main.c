@@ -36,6 +36,7 @@
 #include <stdlib.h>
 
 #include "controller.h"
+#include "hitbox.h"
 #include "player.h"
 #include "screen.h"
 
@@ -64,6 +65,11 @@ main(int argc, char* args[])
   player_init(&player);
 
   SDL_Renderer* renderer = screen.renderer;
+  hitbox_t hitbox = { .x = screen.width / 2 - 50,
+                      .y = screen.height / 2 - 50,
+                      .width = 100,
+                      .height = 100 };
+
   while (!quit) {
 
     screen_reset(&screen);
@@ -82,6 +88,7 @@ main(int argc, char* args[])
 
     player_update(&player, &ctrl, screen.width, screen.height);
     player_draw(&player, renderer);
+    hitbox_draw(&hitbox, renderer);
 
     SDL_RenderPresent(renderer);
 
