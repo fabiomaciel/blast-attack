@@ -39,7 +39,7 @@ typedef struct screen {
   uint16_t width;
   uint16_t height;
   SDL_Renderer* renderer;
-  SDL_Window* window
+  SDL_Window* window;
 } screen_t;
 
 bool screen_init(screen_t *screen);
