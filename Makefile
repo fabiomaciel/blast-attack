@@ -46,6 +46,9 @@ test: lib/libmunit.so $(BUILD_DIR) $(TESTS)
 lib/libmunit.so: $(LIB_DIR) third_party/munit/munit.c
 	$(CC) -Wall -fpic -c third_party/munit/munit.c -shared -o lib/libmunit.so
 
+checkstyle:
+	clang-format -dry-run -Werror */**.c */**.h
+
 clean:
 	@rm -rf $(BUILD_DIR)
 	@rm -rf $(LIB_DIR)
