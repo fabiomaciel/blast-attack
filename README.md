@@ -12,6 +12,7 @@ $ git clone --recursive git@github.com:fabiomaciel/blast-attack.git
 - make
 - SDL2
 - pkg-config
+- clang-format (optional)
 
 ## Contribute
 
